@@ -17,10 +17,27 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(generateWorker().toString());
+        Employee[] employeesList = generateEmployees(10);
+        for (Employee employee: employeesList) {
+                System.out.println(employee);
+            }
+
+        System.out.println();
+
+        Arrays.sort(employeesList, new SalaryComparator(SortType.Descending));
+
+        for (Employee employee: employeesList) {
+            System.out.println(employee);
         }
+
+        System.out.println();
+
+        Arrays.sort(employeesList, new AgeComparator(SortType.Ascending));
         
+        for (Employee employee: employeesList) {
+            System.out.println(employee);
+        }
+
     }
 
     private static Random random = new Random();
@@ -29,20 +46,27 @@ public class Main {
         
         String[] names = new String[] { "Николай", "Ян", "Владимир", "Виталий", "Георгий", "Денис", "Андрей", "Иван", "Михаил", "Василий", "Харис", "Анатолий", "Евгений", "Максим", "Александр", "Павел", "Роман" };
         String[] surNames = new String[] { "Иванов", "Петров", "Орлов", "Сазонов", "Баданов", "Сальников", "Калинин", "Горбатов", "Утин", "Трофимов", "Колесников", "Бойков", "Зарубин" };
-        
+        int[] ages = new int[] { 23, 25, 26, 27, 31, 32, 34, 35, 37, 39, 41, 42, 44, 46, 47, 50, 52, 55, 58, 60 };
         int salary = random.nextInt(60000, 120000);
 
         int randomInt = random.nextInt(3);
         if (randomInt == 1){
-            Employee workerFreelancer = new Freelancer(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], salary);
+            Employee workerFreelancer = new Freelancer(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], ages[random.nextInt(ages.length)], salary, random.nextBoolean());
             return workerFreelancer;
         } else if (randomInt == 2) {
-            Employee workerFullTimeWorker = new FullTimeWorker(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], salary);
+            Employee workerFullTimeWorker = new FullTimeWorker(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], ages[random.nextInt(ages.length)], salary, random.nextBoolean());
             return workerFullTimeWorker;
         } else {
-            Employee workerHalfTimeWorker = new HalfTimeWorker(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], salary);
+            Employee workerHalfTimeWorker = new HalfTimeWorker(surNames[random.nextInt(surNames.length)], names[random.nextInt(names.length)], ages[random.nextInt(ages.length)], salary, random.nextBoolean());
             return workerHalfTimeWorker;
         }
+    }
+
+    static Employee[] generateEmployees(int count){
+        Employee[] array = new Employee[count];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = generateWorker();
+        } return array;
     }
 
 }
